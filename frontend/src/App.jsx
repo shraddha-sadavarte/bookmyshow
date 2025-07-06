@@ -9,12 +9,22 @@ import MyBookings from './pages/MyBookings'
 import Favourites from './pages/Favourites'
 import { Toaster } from 'react-hot-toast'
 import Footer from './components/Footer'
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react';
 
 const App = () => {
 
   const isAdminRoute = useLocation().pathname.startsWith('/admin')
   return (
     <>
+      <header>
+      <SignedOut>
+        <SignInButton />
+      </SignedOut>
+      <SignedIn>
+        <UserButton />
+      </SignedIn>
+    </header>
+    
       <Toaster />
       { !isAdminRoute && <Navbar />}
       <Routes>
