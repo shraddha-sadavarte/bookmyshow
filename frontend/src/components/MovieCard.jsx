@@ -1,11 +1,32 @@
-import { StarIcon } from 'lucide-react'
-import React from 'react'
+import { Heart, StarIcon, HeartOff } from 'lucide-react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import TimeFormat from '../lib/TimeFormat'
 
 const MovieCard = ({movie}) => {
-    const navigate=useNavigate()
-  return (
+    const navigate=useNavigate();
+
+    const [favourites, setFavourites] = useState([]);
+
+    useEffect(() => {
+      const storedFavs = JSON.parse(localStorage.getItem('favourites')) || [];
+      setFavourites(storedFavs);
+    }, [])
+
+    const addtoFavourites = (movieId) => {
+      const storedFavs = JSON.parse(localStorage.getItem('favourites')) || [];
+      let updatedFavs; 
+
+      if(storedFavs.includes(movieId)) {
+        updatedFavs = storedFavs.filter(id => id !== movieId)
+      } else {
+        updatedFavs = [...storedFavs, movieId]
+      }
+      localStorage.setItem('favourites', JSON.stringify(updatedFavs))
+      setFavourites(updatedFavs)
+    } 
+
+    return (
     <div className='flex flex-col justify-between p-3 bg-gray-800 rounded-2xl
     hover:-translate-y-1 transition duration-300 w-66'>
       <img src={movie.backdrop_path} alt='' className='rounded-lg h-52 w-full
@@ -25,8 +46,15 @@ const MovieCard = ({movie}) => {
             className='px-4 py-2 text-xs bg-red-400 hover:bg-red-300 transition
             rounded-full font-medium cursor-pointer'>
                 Buy Tickets
-            </button>
-        <p className='flex items-center gap-1 text-sm text-gray-400 mt-1 pr-1'>
+          </button>
+          {favourites.includes(movie._id) ? (
+            <Heart className='w-4 h-4 text-red-500 fill-primary cursor-pointer' 
+            onClick={ () => addtoFavourites(movie._id)} />
+          ) : (
+            <HeartOff className='w-4 h-4 text-gray-400 cursor-pointer fill-primary '
+            onClick={() => addtoFavourites(movie._id)} />
+          )}
+        <p className='flex items-center gap-2 text-sm text-gray-400 mt-1 pr-1'>
             <StarIcon className='w-4 h-4 text-primary fill-primary'/>
             {movie.vote_average.toFixed(1)}
         </p>
