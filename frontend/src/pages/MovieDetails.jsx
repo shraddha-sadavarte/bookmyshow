@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { dummyDateTimeData, dummyShowsData } from '../assets/assets';
 import BlurCircle from '../components/BlurCircle';
 import { Heart, PlayCircleIcon, StarIcon } from 'lucide-react';
 import TimeFormat from '../lib/TimeFormat';
+import DateSelect from '../components/DateSelect';
+import MovieCard from '../components/MovieCard';
 
 const MovieDetails = () => {
+
+  const navigate = useNavigate() 
   const {id} = useParams() // used to easily extract and utilized dynamic parameter from url 
   const [show, setShow] = useState(null);
 
@@ -48,7 +52,7 @@ const MovieDetails = () => {
               <PlayCircleIcon className='w-5 h-5'/>
               Watch Trailer
             </button>
-            <a href='#dataSelect' className='px-10 py-3 text-sm bg-red-600 hover:bg-red-400
+            <a href='#dateSelect' className='px-10 py-3 text-sm bg-red-600 hover:bg-red-400
             transition rounded-md font-medium cursor-pointer active:scale-95'>Buy Tickets</a>
             <button className='bg-gray-700 p-2.5 rounded-full transition cursor-pointer active:scale-95'>
               <Heart  className={`w-5 h-5`}/>
@@ -67,6 +71,19 @@ const MovieDetails = () => {
             </div>
           ))}
         </div>
+      </div>
+
+      <DateSelect dateTime={show.dateTime} id={id}/>
+
+      <p className='text-lg font-medium mt-20 mb-8'>You May Also Like</p>
+      <div className='flex flex-wrap max-sm:justify-center gap-8'>
+        {dummyShowsData.slice(0,4).map((movie,index) => (
+          <MovieCard key={index} movie={movie}/>
+        ))}
+      </div>
+      <div onClick={()=>navigate('/movies')} className='flex justify-center mt-20'>
+        <button className='px-10 py-3 text-sm bg-red-500 hover:bg-red-400 transition
+        rounded-md font-medium cursor-pointer'>Show More</button>
       </div>
       
     </div>
