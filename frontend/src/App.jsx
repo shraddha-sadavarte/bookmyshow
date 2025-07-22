@@ -10,6 +10,10 @@ import Favourites from './pages/Favourites'
 import { Toaster } from 'react-hot-toast'
 import Footer from './components/Footer'
 import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react';
+import Layout from './pages/admin/Layout'
+import Dashboard from './pages/admin/Dashboard'
+import ListBookings from './pages/admin/ListBookings'
+import ListShows from './pages/admin/ListShows'
 
 const App = () => {
 
@@ -34,6 +38,11 @@ const App = () => {
         <Route path='/movies/:id/:date' element={<SeatLayout />}/>
         <Route path='/my-bookings' element={<MyBookings />}/>
         <Route path='/favourites' element={<Favourites />}/>
+        <Route path='/admin/*' element={<Layout />}>
+          <Route path='add-shows' element={<Dashboard/>}/>
+          <Route path='list-bookings' element={<ListBookings/>}/>
+          <Route path='list-shows' element={<ListShows/>}/>
+        </Route>
       </Routes>
       { !isAdminRoute && <Footer />}
     </>
