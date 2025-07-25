@@ -14,6 +14,7 @@ import Layout from './pages/admin/Layout'
 import Dashboard from './pages/admin/Dashboard'
 import ListBookings from './pages/admin/ListBookings'
 import ListShows from './pages/admin/ListShows'
+import AddShows from './pages/admin/AddShows'
 
 const App = () => {
 
@@ -40,7 +41,7 @@ const App = () => {
         <Route path='/favourites' element={<Favourites />}/>
         <Route path='/admin/*' element={<Layout />}>
         <Route index element={<Dashboard />} />
-          <Route path='add-shows' element={<Dashboard/>}/>
+          <Route path='add-shows' element={<AddShows/>}/>
           <Route path='list-bookings' element={<ListBookings/>}/>
           <Route path='list-shows' element={<ListShows/>}/>
         </Route>
